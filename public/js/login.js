@@ -29,21 +29,24 @@ layui.use(["jquery","form","element"],function () {
 			url:Albums.basePath+"/login",
 			data:data.field,
 			type:"POST",
-			success:function(resData) {
-				var json = JSON.parse(resData);
+			success:function(json) {
+				// var json = JSON.parse(resData);
 				if(json.token!=null){
 					localStorage.setItem('token',json.token);
 					localStorage.setItem('expire',json.expire);
 					localStorage.setItem('username',data.field.username);
 					// $.cookie("token",json.token);
-					document.cookie="token"+ "=" +json.token
+					document.cookie="token"+ "=" +json.token;
 
 					window.location.href = "/index";
+				}else{
+					layer.msg(json.data);
 				}
 			},
 			error:function() {
 				alert("服务器发生未知错误！！！")
 			},
+			dataType:'json'
 		})
 	})
 
@@ -53,11 +56,11 @@ layui.use(["jquery","form","element"],function () {
 			url:url,
 			data:data.field,
 			type:"POST",
-			success:function(aa) {
-				alert(JSON.stringify(aa))
+			success:function(json) {
+				layer.msg(json.data);
 			},
 			error:function() {
-				alert("注册失败")
+				layer.msg('系统发生错误')
 			},
 			dataType:'json'
 		})

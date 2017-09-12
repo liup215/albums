@@ -8,8 +8,11 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var login = require('./routes/login');
 var signup = require('./routes/signup');
-var getAlbum = require('./routes/auth/managealbum/get');
-var download = require('./routes/auth/download')
+var download = require('./routes/auth/download');
+var albumGet = require('./routes/auth/managealbum/get');
+var albumInsert= require('./routes/auth/managealbum/insert');
+var albumOption = require('./routes/auth/managealbum/option');
+var albumDelete = require('./routes/auth/managealbum/delete');
 
 var app = express();
 
@@ -29,8 +32,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/login',login);
 app.use('/signup',signup);
-app.use('/managealbum/get',getAlbum);
+app.use('/managealbum/get',albumGet);
 app.use('/download',download);
+app.use('/managealbum/insert',albumInsert);
+app.use('/managealbum/option',albumOption);
+app.use('/managealbum/delete',albumDelete);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

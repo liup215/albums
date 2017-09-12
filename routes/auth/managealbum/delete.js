@@ -5,7 +5,8 @@ var querystring = require('querystring');
 
 router.post('/',function(req,res,next) {
 	var post_data = querystring.stringify({
-		username : req.body.username
+		username : req.body.username,
+		album : req.body.album
 	})
 
 	var authorization = req.get('authorization');
@@ -13,7 +14,7 @@ router.post('/',function(req,res,next) {
 	var options = {  
 	   host: '59.110.160.110',  
 	   port: '9990',  
-	   path: '/auth/managealbum/get',
+	   path: '/auth/managealbum/delete',
 	   method:'POST',
 	   headers: {  
 	        'Content-Type': 'application/x-www-form-urlencoded',

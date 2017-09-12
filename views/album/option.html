@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <title>相册添加</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- load css -->
+    <link rel="stylesheet" type="text/css" href="/common/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="/common/layui/layui.js"></script>
+</head>
+<body>
+	<form id='albumInsert' class="layui-form" style="padding-top: 1em">
+		<div class="layui-form-item">
+			<div class="layui-input-inline">
+				<input type="hidden" id="album" class="layui-input" value='<%=album%>'>
+			</div>		    
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<input type="radio" name="option" value="open" title="打开" checked>
+				<input type="radio" name="option" value="delete" title="删除">	    
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+	        <div class="layui-input-block">
+	        	<button type="button" class="layui-btn" lay-submit lay-filter="addSubmit" id="ensure">
+				    提交
+				</button>
+				<button type="button" class="layui-btn" lay-submit lay-filter="close" id="cancel">
+				    取消
+				</button>
+	        </div>
+	    </div>
+	</form>
+	<script type="text/javascript" src="/js/modules/managealbum/option.js"></script>
+</body>
+</html>

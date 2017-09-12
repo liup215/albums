@@ -12,12 +12,13 @@ router.get('/index', function(req, res, next) {
   if(!token){
   	res.redirect("/login");
   }
+
   var auth = {
   	isLogin:true,
   	user:{
   		avator:"http://t.cn/RCzsdCq",
   		name:"Albums"
-  	}
+  	},
   }
 
   res.render('index',{auth:auth});
