@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Album图片管理登录</title>
+  <meta http-equiv="Access-Control-Allow-Origin" content="*"> 
+  <!-- load css -->
+  <link rel="stylesheet" type="text/css" href="common/layui/css/layui.css" media="all">
+  <link rel="stylesheet" type="text/css" href="css/login.css" media="all">
+  <script type="text/javascript" src="common/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-canvs"></div>
+<div class="layui-layout layui-layout-login">
+  <h1>
+     <strong>album图片管理系统</strong>
+     <em>Photo Manager</em>
+  </h1>
+  <form class="layui-form">
+    <div class="layui-form-item layui-user-icon larry-login">
+       <input name="username" type="text" placeholder="账号" lay-verify="required" class=" login_txtbx" lay-filter="username"/>
+    </div>
+    <div class="layui-form-item layui-pwd-icon larry-login">
+       <input name="password" type="password" placeholder="密码" lay-verify="required" class="login_txtbx" lay-filter="password"/>
+    </div>
+      <div class="layui-form-item layui-submit larry-login">
+        <button type="button" lay-submit class="submit_btn" lay-filter = "login">登录</button>
+      </div>
+      <div class="layui-form-item layui-submit larry-login">
+        <button type="button" lay-submit class="submit_btn" lay-filter = "signup">注册</button>
+      </div>
+  </form>
+      <div class="layui-login-text">
+        <p>© 2016-2017 版权所有</p>
+          <p>******* <a href="http://*****" title="">album</a></p>
+      </div>
+    
+</div>
+<script type="text/javascript" src="js/login.js"></script>
+</body>
+</html>
