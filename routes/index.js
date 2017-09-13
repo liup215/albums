@@ -8,20 +8,7 @@ router.get('/',function (req, res, next) {
 
 /* GET home page. */
 router.get('/index', function(req, res, next) {
-  var token = req.cookies.token;
-  if(!token){
-  	res.redirect("/login");
-  }
-
-  var auth = {
-  	isLogin:true,
-  	user:{
-  		avator:"http://t.cn/RCzsdCq",
-  		name:"Albums"
-  	},
-  }
-
-  res.render('index',{auth:auth});
+  res.render('index',{});
 });
 
 module.exports = router;

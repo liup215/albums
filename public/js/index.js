@@ -5,16 +5,24 @@ layui.use(['flow','jquery','element','layer'], function(){
     window.$ = layui.jquery;
     var flow = layui.flow,  
     element = layui.element,
-    layer = layui.layer,
+    layer = layui.layer;
+
+    var username = localStorage.getItem('username'),
+    token = localStorage.getItem('token');
+    if(username==null || token==null){
+        window.location.href = '/login'
+    }
+    var user = {
+        username:username
+    }
+    $("#auth").append("<a href='#'><img src='http://t.cn/RCzsdCq' class='layui-nav-img'>Hi，"+ user.username +"</a>")
+
     Albums = {
         bathPath:'',
         albumsUrl:'http://59.110.160.110:9990/'
     };
 
     var albums = null;
-    var user = {
-        username:localStorage.getItem('username')
-    }
 
     //获取相册 
     $.ajax({

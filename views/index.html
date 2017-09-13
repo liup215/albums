@@ -21,7 +21,7 @@
             <ul class="layui-nav layui-layout-left ">
                 <li class="layui-nav-item">
                 	<a id='albumOption' href="#">选择相册</a>
-                	<dl id="albums" default='<%=auth.default %>' class="layui-nav-child">
+                	<dl id="albums" class="layui-nav-child">
                         <dd>
                         	<a id='insert' href="#">
                                 <i class='layui-icon' style='color: #D3D3D3;'>&#xe654; 新建相册</i>
@@ -45,14 +45,6 @@
             		<i class="layui-icon" style="font-size: 200%; color: #D3D3D3;">&#xe641; &nbsp;&nbsp;</i>
             	</li>
                 <li id="auth" class="layui-nav-item">
-                    <%if(auth.isLogin){%>
-                        <a href="#">
-                            <img src="<%=auth.user.avator %>" class="layui-nav-img">
-                            Hi，<%=auth.user.name %>
-                        </a>
-                    <%}else{%>
-                        <a href="/login">登录/注册</a>
-                    <%}%>
                 </li>
                 <li class="layui-nav-item"><a href="">退出</a></li>
             </ul>
