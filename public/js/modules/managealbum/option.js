@@ -37,7 +37,6 @@ layui.use(['jquery','form','layer'],function(){
                             image = "<div class='layui-col-lg1 layui-col-md2 layui-col-sm3 layui-col-xs6' style='padding:0.1%'><div ><img layer-src='http://"+item.url+"' src='http://"+item.url+"' style='width: 100%;'><div class='layui-col-md12'>"+item.filename+"</div></div></div>";
                             parent.$("#photoContainer").append(image);
                         })
-                        parent.$("#photoContainer").append("<div class='layui-col-lg1 layui-col-md2 layui-col-sm3 layui-col-xs6' style='padding:0.1%'><div style='border:dashed;'><div style='width:100%;text-align: center;'><i class='layui-icon' style='font-size: 500%;width: 100%'>&#xe654;</i></div></div></div>");
 
                     }else{
                         window.location.href = "/login"
