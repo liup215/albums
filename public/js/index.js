@@ -49,31 +49,34 @@ layui.use(['flow','jquery','element','layer'], function(){
     })
     
     //获取相册对应的图片
-    user.album = albums[0];
+    if(albums.length>0){
+        user.album = albums[0];
     
-    $.ajax({
-        url:'/download',
-        type:'POST',
-        data:user,
-        success:function(data) {
-            if(data.status==0){
-                var images = data.data;
-                $("#albumOption").html(user.album+"<span class='layui-nav-more'></span>");
-                layui.each(images,function(index,item) {
-                    image = "<div class='layui-col-lg1 layui-col-md2 layui-col-sm3 layui-col-xs6' style='padding:0.1%'><div ><img layer-src='http://"+item.url+"' src='http://"+item.url+"' style='width: 100%;'><div class='layui-col-md12'>"+item.filename+"</div></div></div>";
-                    $("#photoContainer").append(image);
-                })
-            }else{
-                window.location.href = "/login"
-            }
-            
-        },
-        beforeSend:function(request) {
-            request.setRequestHeader('authorization','Bearer '+localStorage.getItem('token'));
-        },
-        dataType:'json',
-        async:false
-    })
+        $.ajax({
+            url:'/image/download',
+            type:'POST',
+            data:user,
+            success:function(data) {
+                if(data.status==0){
+                    var images = data.data;
+                    $("#albumOption").html(user.album+"<span class='layui-nav-more'></span>");
+                    layui.each(images,function(index,item) {
+                        image = "<div class='layui-col-lg1 layui-col-md2 layui-col-sm3 layui-col-xs6' style='padding:0.1%'><div ><img layer-src='http://"+item.url+"' src='http://"+item.url+"' style='width: 100%;'><div class='layui-col-md12'>"+item.filename+"</div></div></div>";
+                        $("#photoContainer").append(image);
+                    })
+                }else{
+                    window.location.href = "/login"
+                }
+                
+            },
+            beforeSend:function(request) {
+                request.setRequestHeader('authorization','Bearer '+localStorage.getItem('token'));
+            },
+            dataType:'json',
+            async:false
+        })
+    }
+    
     
     flow.lazyimg();
     layer.photos({
@@ -106,15 +109,20 @@ layui.use(['flow','jquery','element','layer'], function(){
         })
     })
 
-    $("#img_search").on('click',function() {
+    $("#image_search").on('click',function() {
         layer.msg("这里搜索图片");
     })
 
-    $("#img_add").on('click',function() {
-        layer.msg("这里添加图片");
+    $("#image_upload").on('click',function() {
+        layer.open({
+            title:'图片上传',
+            type:2,
+            content:'/image/upload',
+            area:['500px','300px']
+        })
     })
 
-    $("#img_share").on('click',function() {
+    $("#image_share").on('click',function() {
         layer.msg("这里分享图片");
     })
 
