@@ -55,7 +55,8 @@ layui.use(['jquery','element','form','layer','upload'],function() {
 		multiple:'ture',
 		done:function(res) {
 			if(res.status==0){
-				parent.location.href = '/index';
+				alert(JSON.stringify(res));
+				// parent.location.href = '/index';
 			}else{
 				layer.msg(res.data);
 			}

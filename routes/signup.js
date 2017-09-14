@@ -40,7 +40,7 @@ router.post('/',function(req,res,next) {
 		})
 	})
 
-	reqs.write(post_data+'\n');
+	reqs.write(post_data);
 	reqs.end();
 })
 

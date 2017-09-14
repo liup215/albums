@@ -25,7 +25,7 @@ layui.use(['jquery','form','layer'],function(){
         option.user.album = $('#album').val();
     	if(data.field.option=='open'){
             $.ajax({
-                url:'/download',
+                url:'/image/download',
                 type:'POST',
                 data:option.user,
                 success:function(data) {

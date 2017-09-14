@@ -5,24 +5,12 @@ var querystring = require('querystring');
 
 
 router.get('/',function(req,res,next) {
+    res.setHeader("Access-Control-Allow-Origin","*");
 	res.render('images/upload',{});
 })
 
 router.post('/',function(req,res,next) {
-	var boundaryKey = Math.random().toString(16);
-	var authorization = req.get('authorization');
-	
-	var options = {  
-	   host: '59.110.160.110',  
-	   port: '9990',  
-	   path: '/auth/upload',
-	   method:'POST',
-	   headers: {  
-	        'authorization':authorization,
-	        'Content-Type':'multipart/form-data;boundary=----'+boundaryKey
-	   }
-	}
-
+	console.log(req);
 	var post_data = {};
 	var busboy = req.busboy;
 	busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
@@ -44,39 +32,53 @@ router.post('/',function(req,res,next) {
     })
 
     busboy.on('finish', function() {
-      var request = http.request(options,function(response) {
-    	var resData = '';
-    	response.on('data',function(data) {
-    		resData += data;
-    	});
-    	response.on('end',function() {
-    		console.log(resData);
-    		res.send(resData);
-    	});
-    	response.on('error',function(error) {
-    		
-    	})
-    })
+    	var boundary = "-------------------------"+Math.random().toString(16);
+		var authorization = req.get('authorization');
+		var options = {  
+		   host: '59.110.160.110',  
+		   port: '9990',  
+		   path: '/auth/upload',
+		   method:'POST',
+		   headers: {  
+		        'authorization':authorization,
+		        'content-type':'multipart/form-data; boundary='+boundary,
+		        'x-requested-with': 'XMLHttpRequest',
+		        accept: '*/*',
+		   }
+		}
+        var request = http.request(options,function(response) {
+            var resData = '';
+            response.on('data',function(data) {
+                resData += data;
+            });
+            response.on('end',function() {
+                res.send(resData);
+            });
+            response.on('error',function(error) {
+                
+            })
+        })
 
-    //上传文件
-    
-    request.write('-------------------------'+boundaryKey);
-    request.write("Content-Disposition: form-data; name='" + post_file.fieldname + "'; filename='" + post_file.filename + "'");
-    request.write("Content-Type:image/"+ post_file.mimetype);
-    request.write('\r\n');
-    request.write(post_file.file_data);
-    request.write("-----------------------"+boundaryKey+"--");
+        var body = "";
+        body += "--"+boundary+"\r\n";
+        body += "Content-Disposition: form-data; name='" + post_file.fieldname + "'; filename='" + post_file.filename + "'\r\n";
+        body += "Content-Type:"+ post_file.mimetype+"\r\n";
+        body += "\r\n";
+        body += post_file.file+"\r\n";
 
-    //上传数据
-    for(var key in post_data){
-    	var boundaryKey = Math.random().toString(16);
-    	request.write('-------------------------'+boundaryKey);
-    	request.write("Content-Disposition: form-data; name=''"+key);
-    	request.write('\r\n');
-    	request.write(post_data[key]);
-    }
-    request.end();
-    });
-    
+        for(var key in post_data){
+            body+="--"+boundary+"\r\n";
+            body+="Content-Disposition: form-data; name='"+key+"'\r\n";
+            body+='\r\n';
+            body+=post_data[key]+"\r\n";
+        }
+
+        body += "--"+boundary+"--";
+        console.log(body);
+
+        // //上传文件  
+        request.write(body);
+        request.end();            
+    })   
 })
 module.exports = router;
