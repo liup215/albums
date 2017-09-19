@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var http = require('http');
-var querystring = require('querystring');  
+var querystring = require('querystring');
+var request = require('request');  
 
 
 router.get('/',function(req,res,next) {
@@ -10,7 +11,6 @@ router.get('/',function(req,res,next) {
 })
 
 router.post('/',function(req,res,next) {
-	console.log(req);
 	var post_data = {};
 	var busboy = req.busboy;
 	busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
@@ -34,51 +34,33 @@ router.post('/',function(req,res,next) {
     busboy.on('finish', function() {
     	var boundary = "-------------------------"+Math.random().toString(16);
 		var authorization = req.get('authorization');
-		var options = {  
-		   host: '59.110.160.110',  
-		   port: '9990',  
-		   path: '/auth/upload',
-		   method:'POST',
-		   headers: {  
-		        'authorization':authorization,
-		        'content-type':'multipart/form-data; boundary='+boundary,
-		        'x-requested-with': 'XMLHttpRequest',
-		        accept: '*/*',
-		   }
-		}
-        var request = http.request(options,function(response) {
-            var resData = '';
-            response.on('data',function(data) {
-                resData += data;
-            });
-            response.on('end',function() {
-                res.send(resData);
-            });
-            response.on('error',function(error) {
-                
-            })
-        })
 
-        var body = "";
-        body += "--"+boundary+"\r\n";
-        body += "Content-Disposition: form-data; name='" + post_file.fieldname + "'; filename='" + post_file.filename + "'\r\n";
-        body += "Content-Type:"+ post_file.mimetype+"\r\n";
-        body += "\r\n";
-        body += post_file.file+"\r\n";
-
-        for(var key in post_data){
-            body+="--"+boundary+"\r\n";
-            body+="Content-Disposition: form-data; name='"+key+"'\r\n";
-            body+='\r\n';
-            body+=post_data[key]+"\r\n";
+        var options = {  
+            url:'http://59.110.160.110:9990/auth/upload',
+            headers: {  
+                'authorization':authorization,
+            },
+            formData:{
+                username:post_data.username,
+                album:post_data.album,
+                images:{
+                    value:Buffer.from(post_data.file),
+                    options:{
+                        filename:post_file.filename,
+                        contentType:post_file.mimetype
+                    }
+                    
+                }
+            }
         }
 
-        body += "--"+boundary+"--";
-        console.log(body);
-
-        // //上传文件  
-        request.write(body);
-        request.end();            
+        var r = request.post(options,function(error,response,body) {
+            if (!error && response.statusCode == 200) {
+                // var info = JSON.parse(body);
+                res.send(body);
+            }
+        });
+         
     })   
 })
 module.exports = router;
